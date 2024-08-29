@@ -1,30 +1,44 @@
-import React, { useState } from 'react'
+import { useState } from "react";
 
-
-const Display = props => <div>{props.value}</div>
-
-const Button = (props) => (
-  <button onClick={props.handleClick}>
-    {props.text}
-  </button>
-)
-
+const Display = () => <h1>give feedback</h1>;
 const App = () => {
-  const [value, setValue] = useState(10)
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  const setToValue = newValue => {
-    console.log('value now', newValue)
-    setValue(newValue)
-  }
+  const incrementGood = () => {
+    const updatedGood = good + 1;
+    setGood(updatedGood);
+    console.log(updatedGood);
+  };
+
+  const incrementNeutral = () => {
+    const updateNeutral = neutral + 1;
+    setNeutral(updateNeutral);
+    console.log(neutral);
+  };
+
+  const incrementBad = () => {
+    const updatedBad = bad + 1;
+    setBad(updatedBad);
+    console.log(updatedBad);
+  };
 
   return (
     <div>
-      <Display value={value} />
-      <Button handleClick={() => setToValue(1000)} text="thousand" />
-      <Button handleClick={() => setToValue(0)} text="reset" />
-      <Button handleClick={() => setToValue(value + 1)} text="increment" />
-    </div>
-  )
-}
+      <Display />
+      <div>
+        <button onClick={incrementGood}>Good</button>
+        <button onClick={incrementNeutral}>Neutral</button>
+        <button onClick={incrementBad}>Bad</button>
+      </div>
 
-export default App
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+    </div>
+  );
+};
+
+export default App;
