@@ -1,29 +1,58 @@
 import { useState } from "react";
 
-const Display = () => <h1>give feedback</h1>;
+const Display = () => <h1>Give Feedback</h1>;
+
+const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+  if (all === 0) {
+    return <p>No feedback given</p>;
+  }
+
+  return (
+    <div>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>All: {all}</p>
+      <p>Average: {average.toFixed(2)}</p>
+      <p>Positive: {positive.toFixed(2)}%</p>
+    </div>
+  );
+};
+
 const App = () => {
-  // save clicks of each button to its own state
+  // Save clicks of each button to its own state
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const [all, setAll] = useState(0);
 
   const incrementGood = () => {
     const updatedGood = good + 1;
     setGood(updatedGood);
-    console.log(updatedGood);
+    incrementAll();
   };
 
   const incrementNeutral = () => {
-    const updateNeutral = neutral + 1;
-    setNeutral(updateNeutral);
-    console.log(neutral);
+    const updatedNeutral = neutral + 1;
+    setNeutral(updatedNeutral);
+    incrementAll();
   };
 
   const incrementBad = () => {
     const updatedBad = bad + 1;
     setBad(updatedBad);
-    console.log(updatedBad);
+    incrementAll();
   };
+
+  const incrementAll = () => {
+    const updatedAll = all + 1;
+    setAll(updatedAll);
+    console.log(updatedAll);
+  };
+
+  // Calculations for average and positive
+  const average = all > 0 ? (good - bad) / all : 0;
+  const positive = all > 0 ? (good / all) * 100 : 0;
 
   return (
     <div>
@@ -34,9 +63,8 @@ const App = () => {
         <button onClick={incrementBad}>Bad</button>
       </div>
 
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
+      {/* Use Statistics component to display results */}
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
     </div>
   );
 };
