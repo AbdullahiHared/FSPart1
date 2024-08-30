@@ -13,16 +13,45 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
   const generateRandomIndex = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length);
     setSelected(randomIndex);
   };
 
+  const incrementVoting = () => {
+    const newVotes = [...votes];
+    newVotes[selected] += 1;
+    setVotes(newVotes);
+  };
+
+  const checkHighestVote = () => {
+    let max = votes[0];
+    let maxIndex = 0;
+
+    for (let index = 1; index < votes.length; index++) {
+      if (max < votes[index]) {
+        max = votes[index];
+        maxIndex = index;
+      }
+    }
+
+    return maxIndex;
+  };
+
+  const highestVotedIndex = checkHighestVote();
+
   return (
     <div>
-      {anecdotes[selected]}
+      <h3>{anecdotes[selected]}</h3>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={incrementVoting}>Vote</button>
       <button onClick={generateRandomIndex}>Next Anecdote</button>
+      
+      <h3>Anecdote with the most votes:</h3>
+      <p>{anecdotes[highestVotedIndex]}</p>
+      <p>has {votes[highestVotedIndex]} votes</p>
     </div>
   );
 };
